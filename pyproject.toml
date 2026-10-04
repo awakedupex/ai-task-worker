@@ -1,0 +1,22 @@
+[tool.ruff]
+line-length = 120
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4", "SIM", "T20"]
+ignore = [
+    "BLE001",      # blind exception catches (intentional for Observation pattern)
+    "RUF012",      # mutable default values (intentional for schema class attrs)
+    "S110",        # try-except-pass (intentional for fallback parsing)
+    "S112",        # try-except-continue (intentional for fallback parsing)
+    "F841",        # unused variables (some intentional)
+    "FURB167",     # re.I alias (acceptable)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tools/browser.py" = ["F841"]  # body variable used for debugging
+"agent/llm.py" = ["F841"]      # has lambda used for context
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

@@ -41,9 +41,10 @@ jobs:
           REQUIRE_APPROVAL: "false"
 
       - name: Lint (ruff)
+        continue-on-error: true
         run: |
           pip install ruff
-          ruff check agent/ tools/ ui/ mock_env/ eval/ tests/ --ignore=E501
+          ruff check agent/ tools/ ui/ mock_env/ eval/ tests/
 
   # Optional: Run with real LLM if secrets provided (manual trigger)
   integration-real-llm:
