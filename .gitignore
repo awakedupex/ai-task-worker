@@ -1,0 +1,64 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment files (NEVER commit secrets)
+.env
+.env.local
+.env.*.local
+
+# Databases
+*.db
+*.sqlite
+*.sqlite3
+mock_env/erp.db
+
+# Logs & trajectories
+*.log
+trajectory_logs/*.json
+!trajectory_logs/.gitkeep
+
+# Generated reports
+reports/*
+!reports/.gitkeep
+
+# Playwright / browser artifacts
+.chromium/
+playwright-report/
+test-results/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.mp4
+*.webm
+
+# IDE / editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage / test artifacts
+.coverage
+htmlcov/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/

@@ -1,0 +1,5 @@
+UMBRELLA CO
+Invoice U-77
+Total: $7,700.00
+Due: 05/06/2026
+Note: date format ambiguous DD/MM.

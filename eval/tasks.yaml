@@ -1,0 +1,10 @@
+tasks:
+  - name: invoice_acme
+    task: "Find the latest invoice from Acme Corp, extract the amount and due date, enter it into our internal system."
+    expect_verified: true
+  - name: invoice_globex
+    task: "Find invoice from Globex, get amount and due date, store in internal system."
+    expect_verified: true
+  - name: gst_research
+    task: "Research current GST rate for services in India, save a 1-page summary to reports/gst_note.md with sources."
+    expect_verified: true

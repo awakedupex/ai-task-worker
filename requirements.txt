@@ -1,0 +1,16 @@
+# core deps (minimal to run CLI demo)
+fastapi==0.104.1
+uvicorn==0.24.0
+python-dotenv==1.0.0
+# LLM providers (only install what you use)
+openai>=1.0.0
+anthropic>=0.18.0
+# UI / browser / parsing (optional but recommended)
+streamlit>=1.32.0
+playwright>=1.42.0
+pypdf>=4.0.0
+pdfplumber>=0.11.0
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+# web search (keyless)
+duckduckgo-search>=5.0.0

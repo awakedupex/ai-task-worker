@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # Install Playwright for browser tool tests (headless)
+          playwright install chromium --with-deps 2>/dev/null || true
+
+      - name: Seed mock environment
+        run: python3 mock_env/seed_data.py
+
+      - name: Run unit + integration tests
+        run: python3 tests/test_tools.py
+
+      - name: Run evaluation suite (MockLLM - deterministic, no keys)
+        run: python3 eval/run_eval.py
+        env:
+          MODEL_PROVIDER: mock
+          AUTO_APPROVE: "1"
+          REQUIRE_APPROVAL: "false"
+
+      - name: Lint (ruff)
+        run: |
+          pip install ruff
+          ruff check agent/ tools/ ui/ mock_env/ eval/ tests/ --ignore=E501
+
+  # Optional: Run with real LLM if secrets provided (manual trigger)
+  integration-real-llm:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && github.repository_owner == 'adwaiteklavya'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - run: python3 mock_env/seed_data.py
+      - name: Run eval with OpenAI (if key provided)
+        if: env.OPENAI_API_KEY != ''
+        run: python3 eval/run_eval.py
+        env:
+          MODEL_PROVIDER: openai
+          MODEL_NAME: gpt-4o-mini
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          AUTO_APPROVE: "1"
+          REQUIRE_APPROVAL: "false"
